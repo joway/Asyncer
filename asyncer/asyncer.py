@@ -1,17 +1,12 @@
 import logging
 import queue
-import threading
-
-logging.basicConfig(level=logging.INFO)
+from asyncer.thread import DaemonThread
 
 
-class Asyncer(threading.Thread):
+class Asyncer(DaemonThread):
     def __init__(self):
-        super().__init__(daemon=True)
         self._task_queue = queue.Queue()
-        # daemon线程无法等待,会在主线程终止时自动销毁
-        self._running = True
-        self.start()
+        super().__init__()
 
     def task(self, function, callback, *args, **kwargs):
         logging.info('Task ' + function.__name__ + ' has been added to the queue .')
@@ -21,9 +16,6 @@ class Asyncer(threading.Thread):
             'args': args,
             'kwargs': kwargs
         })
-
-    def terminate(self):
-        self._running = False
 
     def run(self):
         while self._running:
@@ -46,5 +38,4 @@ class Asyncer(threading.Thread):
     def size(self):
         return self._task_queue.qsize()
 
-    def global_callback(self, func, func_return):
-        logging.info('Task ' + func.__name__ + ' returns : ' + str(func_return))
+
