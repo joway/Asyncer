@@ -1,5 +1,6 @@
-import logging
 import queue
+
+from asyncer import logging
 from asyncer.thread import DaemonThread
 
 

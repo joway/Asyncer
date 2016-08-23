@@ -1,7 +1,7 @@
 import datetime
-import logging
 from time import sleep
 
+from asyncer import logging
 from .thread import DaemonThread
 
 
