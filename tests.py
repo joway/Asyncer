@@ -2,8 +2,8 @@ import unittest
 from time import sleep
 
 from asyncer import asyncer
-from asyncer import calendar
-from asyncer.decorator import calendar_task
+from asyncer import timer
+from asyncer.decorator import timer_task
 
 
 def func_add(a, b):
@@ -14,12 +14,12 @@ def callback(func_return):
     print('callback: ' + str(func_return))
 
 
-@calendar_task(callback, 1)
+@timer_task(callback, 1)
 def func_dec(a, b):
     return a + b
 
 
-@calendar_task(callback, 2)
+@timer_task(callback, 2)
 def func_dec2(a, b):
     return a - b
 
@@ -30,14 +30,14 @@ class AysncerTest(unittest.TestCase):
 
     def setUp(self):
         self.asyncer = asyncer
-        self.calendar = calendar
+        self.timer = timer
         self._func_add = func_add
 
     def wait_for_asyncer(self):
         while self.asyncer.size() > 0:
             pass
 
-    def wait_for_calendar(self):
+    def wait_for_timer(self):
         count = 1
         while count <= 10:
             sleep(1)
@@ -51,10 +51,10 @@ class AysncerTest(unittest.TestCase):
     def test_with_decorator(self):
         func_dec(3, 5)
         func_dec2(3, 5)
-        self.wait_for_calendar()
+        self.wait_for_timer()
 
-    def test_calendar(self):
-        self.calendar.task(self._func_add, self.callback, 1, 4, 6)
-        self.calendar.task(self._func_add, self.callback, 2, 3, 9)
-        self.calendar.task(self._func_add, self.callback, 3, 5, 19)
-        self.wait_for_calendar()
+    def test_timer(self):
+        self.timer.task(self._func_add, self.callback, 1, 4, 6)
+        self.timer.task(self._func_add, self.callback, 2, 3, 9)
+        self.timer.task(self._func_add, self.callback, 3, 5, 19)
+        self.wait_for_timer()

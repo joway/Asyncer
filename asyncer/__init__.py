@@ -1,9 +1,9 @@
 import logging
 
 from .asyncer import Asyncer
-from .calendar import Calendar
+from .timer import Timer
 
 asyncer = Asyncer()
-calendar = Calendar()
+timer = Timer()
 
 logging = logging.basicConfig(level=logging.WARN)

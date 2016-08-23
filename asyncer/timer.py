@@ -5,7 +5,7 @@ from time import sleep
 from .thread import DaemonThread
 
 
-class Calendar(DaemonThread):
+class Timer(DaemonThread):
     def __init__(self):
         self._task_list = []
         super().__init__()
